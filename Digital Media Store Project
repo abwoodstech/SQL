@@ -1,0 +1,86 @@
+SELECT CustomerId, FirstName, LastName, Country
+FROM customers
+WHERE Country <> 'USA';
+
+SELECT CustomerId, FirstName, LastName, Country
+FROM customers
+WHERE Country = 'Brazil';
+
+SELECT cust.CustomerId, cust.FirstName, cust.LastName, invoices.InvoiceId, invoices.InvoiceDate, invoices.BillingCountry
+FROM customers AS cust
+LEFT JOIN invoices
+ON cust.CustomerId = invoices.CustomerId
+WHERE invoices.BillingCountry = 'Brazil';
+
+SELECT Title, FirstName, LastName
+FROM employees
+WHERE Title = 'Sales Support Agent';
+
+SELECT DISTINCT BillingCountry
+FROM invoices
+WHERE BillingCountry NOT IN ('Italy', 'Denmark', 'Poland', 'Hungary');
+
+SELECT emp.FirstName, emp.LastName, invoices.InvoiceId
+FROM employees AS emp
+INNER JOIN customers AS cust
+ON emp.EmployeeId = cust.SupportRepId
+LEFT JOIN invoices
+ON cust.CustomerId = invoices.CustomerId
+WHERE emp.Title = 'Sales Support Agent';
+
+SELECT inv.Total, cust.FirstName AS Customer, cust.LastName AS CustLast, cust.Country, emp.FirstName AS Salesman, emp.LastName AS SalesLast
+FROM employees AS emp
+INNER JOIN customers AS cust
+ON emp.EmployeeId = cust.SupportRepId
+LEFT JOIN invoices AS inv
+ON cust.CustomerId = inv.CustomerId;
+
+SELECT COUNT(*)
+FROM invoices
+WHERE InvoiceDate LIKE '2009%';
+
+SELECT SUM(Total)
+FROM invoices
+WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31';
+
+SELECT tracks.Name, inv.InvoiceLineId
+FROM tracks
+JOIN invoice_items AS inv
+ON tracks.TrackId = inv.TrackId;
+
+SELECT tracks.Name AS Track, art.Name AS Artist, inv.InvoiceLineId
+FROM tracks
+LEFT JOIN invoice_items AS inv
+ON tracks.TrackId = inv.TrackId
+INNER JOIN albums
+ON tracks.AlbumId = albums.AlbumId
+LEFT JOIN artists AS art
+ON albums.ArtistId = art.ArtistId;
+
+SELECT tracks.Name AS Track, albums.Title, med.Name AS Type, gen.Name AS Genre
+FROM tracks
+JOIN albums
+ON tracks.AlbumId = albums.AlbumId
+JOIN media_types AS med
+ON tracks.MediaTypeId = med.MediaTypeId
+JOIN genres AS gen
+ON tracks.GenreId = gen.GenreId;
+
+SELECT emp.FirstName, emp.LastName, ROUND(SUM(inv.Total)) AS 'Total Sales'
+FROM employees AS emp
+JOIN customers AS cust
+ON emp.EmployeeId = cust.SupportRepId
+JOIN invoices AS inv
+ON cust.CustomerId = inv.CustomerId
+GROUP BY emp.EmployeeId;
+
+SELECT emp.FirstName, emp.LastName, ROUND(SUM(inv.Total)) AS 'Total Sales'
+FROM employees AS emp
+JOIN customers AS cust
+ON emp.EmployeeId = cust.SupportRepId
+JOIN invoices AS inv
+ON cust.CustomerId = inv.CustomerId
+WHERE inv.InvoiceDate LIKE '2009%'
+GROUP BY emp.EmployeeId
+ORDER BY SUM(inv.Total) desc
+LIMIT 1;
