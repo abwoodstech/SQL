@@ -1,0 +1,23 @@
+SELECT track_name, artist_name, popularity
+FROM Spotifydata
+WHERE popularity > 90
+ORDER BY popularity desc
+LIMIT 1;
+
+SELECT track_name, artist_name, MIN(danceability) AS danceable, popularity
+FROM Spotifydata
+GROUP BY danceability
+ORDER BY danceable asc
+LIMIT 1;
+
+SELECT artist_name, COUNT(artist_name) AS songs_released
+FROM Spotifydata
+GROUP BY artist_name
+HAVING songs_released > 2
+ORDER BY songs_released desc;
+
+SELECT *
+FROM Spotifydata
+WHERE loudness
+AND popularity < 70
+ORDER BY popularity desc;
