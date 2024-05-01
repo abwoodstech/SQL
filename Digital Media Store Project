@@ -1,4 +1,4 @@
-#In this SQL project, I have combined everything I've learned throughout my SQL studying to answer 14 questions about this Digital Media Store.
+#In this SQL project, I have combined everything I've learned throughout my SQL studies to answer 14 questions about this Digital Media Store.
 
 #Show Customers (their full names, customer ID, and country) who are not in the US.
 SELECT CustomerId, FirstName, LastName, Country
